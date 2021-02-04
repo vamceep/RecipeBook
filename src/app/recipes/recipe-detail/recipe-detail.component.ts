@@ -2,6 +2,8 @@ import { I18nPluralPipe } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Recipe } from '../recipe.model'
+import { RecipeService } from '../recipe.service';
+import { ShoppingService } from '../../shopping-list/shopping.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -10,9 +12,16 @@ import { Recipe } from '../recipe.model'
 })
 export class RecipeDetailComponent implements OnInit {
   @Input('displayRecipe') recipe: Recipe;
-  constructor() { }
+  
+  constructor(
+    private recipeService: RecipeService,
+    private shoppingService: ShoppingService
+  ) {}
 
   ngOnInit(): void {
   }
-  
+
+  addToCart() {
+    this.shoppingService.addToCartEvent.emit(this.recipe.ingredients);
+  }
 }
